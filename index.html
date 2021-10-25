@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<title>カラオケ字幕連番画像作成</title>
+
+<style>
+html,body{
+    height :100%;
+    margin:0;
+    font-size: 100%;
+}
+button, input, select, textarea {
+    font-family : inherit;
+    font-size : 100%;
+}
+#Screen
+{
+    display: flex;
+    flex-direction: column;
+    height :100%;
+    padding:2px;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+#Canvas
+{
+    width:auto;
+    height:auto;
+    background-color:#000000FF;
+}
+#Parameter
+{
+    display: flex;
+    flex-direction:row;
+}
+#ListArea
+{
+    height: 100%;
+    flex: 1 1 auto;
+    overflow-y :scroll;
+    border: black 1px solid;
+    margin: 4px;
+}
+#LyricsList
+{
+    list-style-type: decimal-leading-zero;
+    margin: 2px 0;
+}
+#LyricsList > li
+{
+    border-bottom: solid 1px #cccccc;
+    line-height: 2;
+}
+
+.list_time
+{
+    background-color:#eeeeee ;
+    padding-top: 5px;
+    margin-left: 5px;
+    text-align: center;
+    flex: 0 0 6em;
+}
+.list_text
+{
+    padding-left: 5px;
+    flex: 1 1 auto;
+}
+input:checked ~ .list_time , input:checked ~ .list_text
+{
+    background-color:#FFDDDD ;
+}
+.list_label
+{
+    display: flex;
+}
+input[name="karaokelines"]
+{
+    width: 0;
+    opacity: 0;
+}
+
+
+</style>
+
+</head>
+<body>
+<div id="Screen">
+    <div id="ImageDisplay">
+        <canvas id="Canvas" ></canvas>
+    </div>
+    <div>
+        <span id="CanvasSize"></span> <label>Offset(ms) <input type="number" id="Offset" min="-5000" max="5000" value="0" step="1"></label><BR>
+            <button id="Update">Update</button><input type="number" id="Time" min="0" value="0" step="100">
+            <button id="MakeImageSequence">Make Image Sequence</button>
+            <select id="FPS">
+                <option selected>30</option>
+                <option>60</option>
+                <option>24</option>
+                <option>29.97</option>
+            </select>
+            <button id="MakeAllImageSequence">Make All Line Image Sequence</button>
+
+    </div>
+    <div id="Parameter">
+        <table>
+            <tbody>
+                <tr><th></th><th>Base Text</th><th>Ruby Text</th><th></th></tr>
+                <tr><td>Font Family</td><td><input type="text" id="FontFamily"></td><td><input type="text" id="RubyFontFamily"></td>
+                <td><select id="GenericName">
+                    <option selected>serif</option>
+                    <option>sans-serif</option>
+                    <option>monospace</option>
+                    <option>cursive</option>
+                    <option>fantasy</option>
+                    <option>system-ui</option>
+                    <option>ui-serif</option>
+                    <option>ui-sans-serif</option>
+                    <option>ui-monospace</option>
+                    <option>ui-rounded</option>
+                    <option>emoji</option>
+                    <option>math</option>
+                    <option>fangsong</option>
+                </select></td></tr>
+                <tr><td>Font Size</td><td><input type="number" id="FontSize" min="1" value="50"></td><td><input type="number" id="RubyFontSize" min="1" value="25"></td><td></td></tr>
+                <tr><td>Ruby Height</td><td></td><td><input type="number" id="RubyHeight" min="1" value="25"></td><td></td></tr>
+                <tr><td>Outline Width</td><td><input type="number" id="Outline" min="0" value="4"></td><td><input type="number" id="RubyOutline" min="0" value="3"></td>
+                <td><select id="LineJoin">
+                    <option selected>round</option>
+                    <option>miter5</option>
+                    <option>miter10</option>
+                    <option>bevel</option>
+                </select></td></tr>
+            </tbody>
+        </table>
+        <table>
+            <tbody>
+                <tr><th colspan="2">Color</th></tr>
+                <tr><td>Standby Fill  Color</td><td><input type="text" id="StandbyFillColor" value="#CCC"></td></tr>
+                <tr><td>Standby Stroke Color</td><td><input type="text" id="StandbyStrokeColor" value="#00F"></td></tr>
+                <tr><td>Active Fill  Color</td><td><input type="text" id="ActiveFillColor" value="#FFF"></td></tr>
+                <tr><td>Active Stroke Color</td><td><input type="text" id="ActiveStrokeColor" value="#F00"></td></tr>
+            </tbody>
+        </table>
+    </div>
+        <label>BG Color<input type="text" id="BGColor" value="#777777FF"></label>
+    <div id="ListArea">
+        <ol id="LyricsList">
+        </ol>
+    </div>
+
+
+
+</div>
+    <script type='text/javascript' src='js/jszip/jszip.min.js' defer></script>
+
+    <script type='text/javascript' src='js/RKLyrics.js' defer></script>
+    <script type='text/javascript' src='js/KaraokeLineCanvas.js' defer></script>
+
+    <script type='text/javascript' src='js/Global.js' defer></script>
+
+    
+    <script type='text/javascript' src='js/FileDrop.js' defer></script>
+</body>
+</html>
